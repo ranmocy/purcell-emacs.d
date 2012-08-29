@@ -47,7 +47,7 @@
 
 
   ;; Command-Option-f to toggle fullscreen mode
-  (global-set-key (kbd "M-ƒ") 'ns-toggle-fullscreen))
+  (global-set-key (kbd "M-s-f") 'ns-toggle-fullscreen))
 
 (global-set-key (kbd "M-C-8") '(lambda () (interactive) (adjust-opacity nil -5)))
 (global-set-key (kbd "M-C-9") '(lambda () (interactive) (adjust-opacity nil 5)))

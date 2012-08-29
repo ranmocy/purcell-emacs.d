@@ -85,6 +85,12 @@
 ;;----------------------------------------------------------------------------
 ;; Handy key bindings
 ;;----------------------------------------------------------------------------
+;; M-SPC is used by Mac system, use fn-SPC instead.
+(global-set-key (kbd "H-SPC") 'just-one-space)
+
+;; Same with the behavior under terminal
+(global-set-key (kbd "C-h") 'paredit-backward-delete)
+
 ;; To be able to M-x without meta
 (global-set-key (kbd "C-x C-m") 'execute-extended-command)
 
