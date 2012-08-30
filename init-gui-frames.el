@@ -1,3 +1,17 @@
+;; ---------------------------------------------------------------------------
+;; Support GTK fullscreen
+;; ---------------------------------------------------------------------------
+(when (system-type-p :linux)
+    (defun gtk-toggle-fullscreen ()
+      (interactive)
+      (x-send-client-message
+       nil 0 nil "_NET_WM_STATE" 32
+       '(2 "_NET_WM_STATE_FULLSCREEN" 0))
+      )
+    (global-set-key (kbd "M-s-f") 'gtk-toggle-fullscreen)
+    )
+
+
 ;;----------------------------------------------------------------------------
 ;; Stop C-z from minimizing windows under OS X
 ;;----------------------------------------------------------------------------
@@ -53,11 +67,33 @@
 (global-set-key (kbd "M-C-9") '(lambda () (interactive) (adjust-opacity nil 5)))
 (global-set-key (kbd "M-C-0") '(lambda () (interactive) (modify-frame-parameters nil `((alpha . 100)))))
 
-(add-hook 'after-make-frame-functions
-          (lambda (frame)
-            (with-selected-frame frame
-              (unless window-system
-                (set-frame-parameter nil 'menu-bar-lines 0)))))
+
+;;----------font-setting----------
+(defcustom frame-font-name nil
+  "Recommended fonts: 'WenQuanYi Zen Hei Mono-16' 'Inconsolata-18' 'YaHei_Consolas-16'"
+  :group 'font)
+
+
+;;---------------------------------------------------------------------------
+;; New frame hooks
+;;---------------------------------------------------------------------------
+(defun set-frame (frame)
+  "Init for new FRAME."
+  (with-selected-frame frame
+    (when (window-system-p :gui)
+      (set-frame-parameter nil 'menu-bar-lines 0)
+
+      ;;----------set-font----------
+      (set-frame-font frame-font-name)
+
+      ;;----------turn-to-90%-opacity-when-emacs-deactive----------
+      (set-frame-parameter nil 'alpha '(100 90))
+      )))
+
+(add-hook 'after-make-frame-functions 'set-frame)
+(eval-after-init
+ '(unless (eq nil (selected-frame))
+    (set-frame (selected-frame))))
 
 
 (provide 'init-gui-frames)
