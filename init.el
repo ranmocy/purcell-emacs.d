@@ -82,6 +82,16 @@
   (server-start))
 
 
+;;---------------------------------------------------------------------------
+;; Allow edit from other application, such as Chrome
+;;---------------------------------------------------------------------------
+(if (locate-library "edit-server")
+    (progn
+      (require 'edit-server)
+      (setq edit-server-new-frame nil)
+      (edit-server-start)))
+
+
 ;;----------------------------------------------------------------------------
 ;; Variables configured via the interactive 'customize' interface
 ;;----------------------------------------------------------------------------

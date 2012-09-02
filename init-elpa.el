@@ -155,6 +155,7 @@ ARCHIVE is the string name of the package archive.")
 (require-package 'textile-mode)
 (require-package 'darcsum)
 (require-package 'pretty-mode)
+(require-package 'edit-server)
 
 ;; I maintain this chunk:
 (require-package 'ac-slime)
