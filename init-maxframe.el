@@ -47,5 +47,13 @@
                      (+ mf-display-padding-height (frame-pixel-height frame))
                      (frame-char-height frame)))))
 
+;; s-\ for toggling maximized or not
+(global-set-key (kbd "s-\\")
+                '(lambda ()
+                   (interactive)
+                   (if (maximized-p (selected-frame))
+                       (restore-frame)
+                     (maximize-frame))
+                   ))
 
 (provide 'init-maxframe)

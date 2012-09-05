@@ -11,5 +11,10 @@
 
 (setq-default regex-tool-backend 'perl)
 
+;; When you turn on read-only, buffer automatically turn on view-mode.
+(setq view-read-only t)
+
+;; Reconfirm before kill emacs
+(setq confirm-kill-emacs 'yes-or-no-p)
 
 (provide 'init-misc)

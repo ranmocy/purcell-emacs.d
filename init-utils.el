@@ -1,3 +1,16 @@
+;;---------------------------------------------------------------------------
+;; eval-after-init hook
+;;---------------------------------------------------------------------------
+;; `eval-after-init` is modified from https://github.com/technomancy/emacs-starter-kit/commit/5efa136c2ffced48fb5a25948e92ea11b850cedb
+(defun eval-after-init (form)
+  "Add `(lambda () FORM)' to `after-init-hook'.
+If Emacs has already finished initialization, also eval FORM immediately."
+  (let ((func (list 'lambda nil form)))
+    (add-hook 'after-init-hook func)
+    (when after-init-time
+      (eval form))))
+
+
 ;;----------------------------------------------------------------------------
 ;; Handier way to add modes to auto-mode-alist
 ;;----------------------------------------------------------------------------
@@ -87,5 +100,47 @@
              (progn ,@forms)
            (select-frame ,prev-frame))))))
 
+
+;;---------------------------------------------------------------------------
+;; System type p
+;;---------------------------------------------------------------------------
+;; `gnu'         compiled for a GNU Hurd system.
+;; `gnu/linux'   compiled for a GNU/Linux system.
+;; `darwin'      compiled for Darwin (GNU-Darwin, Mac OS X, ...).
+;; `ms-dos'      compiled as an MS-DOS application.
+;; `windows-nt'  compiled as a native W32 application.
+;; `cygwin'      compiled using the Cygwin library.
+;; `linux'       for `gnu' and `gnu/linux'
+;; `darwin'      for `darwin'
+;; `windows'     for `ms-dos', `windows-nt' and `cygwin'
+;; `unixlike'    for `linux' and `darwin'
+
+;;; system-type-p
+(defun system-type-p (type)
+  (case type
+    (:linux (or (system-type-p :gnu) (system-type-p :gnu/linux)))
+    (:windows (or (system-type-p :ms-dos) (system-type-p :windos-nt) (system-type-p :cygwin)))
+    (:unixlike (or (system-type-p :darwin) (system-type-p :linux)))
+    (:any t)
+    (t (equal (subseq (symbol-name type) 1 nil) (symbol-name system-type)))))
+
+
+;;---------------------------------------------------------------------------
+;; Window system p
+;;---------------------------------------------------------------------------
+;; Judge the window-system whether belongs to given type.
+;; e.x. (window-system-p :gui)
+;; `nil' text-only
+;; `ns'  MacOS
+;; `w32' Windows
+;; `cui' for `nil'
+;; TODO: Where is Linux?
+;; `gui' for `ns' and `w32'
+
+(defun window-system-p (system)
+  (case system
+    (:cui (window-system-p :nil))
+    (:gui (or (window-system-p :ns) (window-system-p :w32)))
+    (t (equal (subseq (symbol-name system) 1 nil) (symbol-name window-system)))))
 
 (provide 'init-utils)
