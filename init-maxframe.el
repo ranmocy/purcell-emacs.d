@@ -32,7 +32,7 @@
                (maximized-p sanityinc/prev-frame))
       (maximize-frame))))
 
-(add-hook 'after-make-frame-functions 'maybe-maximize-frame)
+;; (add-hook 'after-make-frame-functions 'maybe-maximize-frame)
 (add-hook 'after-init-hook 'maybe-maximize-frame)
 
 (defun within-p (a b delta)

@@ -2,14 +2,15 @@
 ;; Support GTK fullscreen
 ;; ---------------------------------------------------------------------------
 (when (system-type-p :linux)
-    (defun gtk-toggle-fullscreen ()
-      (interactive)
+  (defun gtk-toggle-fullscreen ()
+    (interactive)
+    (when (fboundp 'x-send-client-message)
       (x-send-client-message
        nil 0 nil "_NET_WM_STATE" 32
-       '(2 "_NET_WM_STATE_FULLSCREEN" 0))
-      )
-    (global-set-key (kbd "M-s-f") 'gtk-toggle-fullscreen)
+       '(2 "_NET_WM_STATE_FULLSCREEN" 0)))
     )
+  (global-set-key (kbd "M-s-f") 'gtk-toggle-fullscreen)
+  )
 
 
 ;;----------------------------------------------------------------------------
@@ -84,10 +85,14 @@
       ;; (set-frame-parameter nil 'menu-bar-lines 0)
 
       ;;----------set-font----------
-      (set-frame-font frame-font-name)
+      (set-frame-font "Inconsolata:pixelsize=16")
+      (set-fontset-font "fontset-default" 'chinese-gbk "WenQuanYi Zen Hei Mono:pixelsize=16")
+      (set-fontset-font "fontset-default" 'unicode "WenQuanYi Zen Hei Mono:pixelsize=16")
 
       ;;----------turn-to-90%-opacity-when-emacs-deactive----------
       (set-frame-parameter nil 'alpha '(100 90))
+
+      (maybe-maximize-frame)
       )))
 
 (add-hook 'after-make-frame-functions 'set-frame)
