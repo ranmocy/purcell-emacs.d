@@ -74,6 +74,7 @@
 (require 'init-marmalade)
 (require 'init-misc)
 
+(require 'init-twittering)
 
 ;;----------------------------------------------------------------------------
 ;; Allow access from emacsclient
